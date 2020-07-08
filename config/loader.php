@@ -26,7 +26,13 @@ define('LS_VERSION','1.0.3');
 require_once(dirname(dirname(__FILE__))."/engine/lib/internal/ConfigSimple/Config.class.php");
 Config::LoadFromFile(dirname(__FILE__).'/config.php');
 
-$fGetConfig = create_function('$sPath', '$config=array(); return include $sPath;');
+/**
+ * Вспомогательная функция
+ */
+$fGetConfig = function ($sPath) {
+    $config = array();
+    return include($sPath);
+};
 
 /**
  * Загружает конфиги модулей вида /config/modules/[module_name]/config.php

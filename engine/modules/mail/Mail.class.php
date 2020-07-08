@@ -15,7 +15,11 @@
 ---------------------------------------------------------
 */
 
-require_once(Config::Get('path.root.engine').'/lib/external/phpMailer/class.phpmailer.php');
+use PHPMailer\PHPMailer\PHPMailer;
+
+require_once(Config::Get('path.root.engine').'/lib/external/phpMailer/src/Exception.php');
+require_once(Config::Get('path.root.engine').'/lib/external/phpMailer/src/PHPMailer.php');
+require_once(Config::Get('path.root.engine').'/lib/external/phpMailer/src/SMTP.php');
 
 /**
  * Модуль для отправки почты(e-mail) через phpMailer
@@ -161,7 +165,7 @@ class ModuleMail extends Module {
 		/**
 		 * Создаём объект phpMailer и устанвливаем ему необходимые настройки
 		 */
-		$this->oMailer = new phpmailer();
+        $this->oMailer = new PHPMailer(true);
 		$this->oMailer->Host=$this->sHost;
 		$this->oMailer->Port=$this->iPort;
 		$this->oMailer->Username=$this->sUsername;
@@ -174,6 +178,8 @@ class ModuleMail extends Module {
 
 		$this->oMailer->From=$this->sFrom;
 		$this->oMailer->FromName=$this->sFromName;
+        
+        $this->oMailer->isHTML(true);
 	}
 	/**
 	 * Устанавливает тему сообщения

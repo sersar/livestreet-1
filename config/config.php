@@ -93,14 +93,16 @@ $config['sys']['plugins']['activation_file'] = 'plugins.dat'; // файл со �
 $config['sys']['cookie']['host'] = null;                    // хост для установки куков
 $config['sys']['cookie']['path'] = '/';                     // путь для установки куков
 $config['sys']['cookie']['time'] = 60 * 60 * 24 * 3;        // время жизни куки когда пользователь остается залогиненым на сайте, 3 дня
+$config['sys']['cookie']['sameSite'] = 'Lax';               // запрещать сторонним доменам создавать файлы cookie, пока пользователь не находится на их сайте
 /**
  * Настройки сессий
  */
-$config['sys']['session']['standart'] = true;                             // Использовать или нет стандартный механизм сессий
 $config['sys']['session']['name']     = 'PHPSESSID';                      // название сессии
 $config['sys']['session']['timeout']  = null;                             // Тайм-аут сессии в секундах
 $config['sys']['session']['host']     = '___sys.cookie.host___'; // хост сессии в куках
 $config['sys']['session']['path']     = '___sys.cookie.path___'; // путь сессии в куках
+$config['sys']['session']['secure'] = false; // опция secure для куки
+$config['sys']['session']['httponly'] = true; // доступность куки http only
 /**
  * Настройки почтовых уведомлений
  */
@@ -313,7 +315,7 @@ $config['db']['params']['host']   = 'localhost';
 $config['db']['params']['port']   = '3306';
 $config['db']['params']['user']   = 'root';
 $config['db']['params']['pass']   = '';
-$config['db']['params']['type']   = 'mysql';
+$config['db']['params']['type']   = 'mysqli';
 $config['db']['params']['dbname'] = 'social';
 $config['db']['params']['params']['replication']['slave'] = array(
 	/*
@@ -322,7 +324,7 @@ $config['db']['params']['params']['replication']['slave'] = array(
 		'port'=>'3306',
 		'user'=>'root',
 		'pass'=>'',
-		'type'=>'mysql',
+		'type'=>'mysqli',
 		'dbname'=>'___db.params.dbname___',
 	),
 	*/
@@ -383,6 +385,11 @@ $config['memcache']['servers'][0]['host'] = 'localhost';
 $config['memcache']['servers'][0]['port'] = '11211';
 $config['memcache']['servers'][0]['persistent'] = true;
 $config['memcache']['compression'] = true;
+
+$config['libmemcached']['servers'][0]['host'] = 'localhost';
+$config['libmemcached']['servers'][0]['port'] = '11211';
+$config['libmemcached']['servers'][0]['weight'] = 1;		// приоритет сервера
+
 /**
  * Настройки роутинга
  */

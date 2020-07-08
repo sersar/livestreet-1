@@ -671,7 +671,7 @@ class LiveImage {
 
 		for($i=0, $len=strlen($text); $i<$len; $i++)
 		{
-			$char=$text{$i};
+			$char=$text[$i];
 			$code=ord($char);
 			$uni.=($code>175) ? "&#".(1040+($code-176)).";" : $char;
 		}

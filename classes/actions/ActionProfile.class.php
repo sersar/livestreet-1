@@ -456,6 +456,7 @@ class ActionProfile extends Action {
 		$oWall->setUserId($this->oUserCurrent->getId());
 		$oWall->setText(getRequestStr('sText'));
 		$oWall->setPid(getRequestStr('iPid'));
+		$oWall->setLastReply('');
 
 		$this->Hook_Run('wall_add_validate_before', array('oWall'=>$oWall));
 		if ($oWall->_Validate()) {
