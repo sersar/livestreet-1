@@ -112,7 +112,7 @@ class ActionRegistration extends Action {
 							$oUser->setPassword(isset($aField['params']['password']) ? $aField['params']['password'] : null);
 							break;
 						default:
-							continue;
+							continue 2;
 							break;
 					}
 					/**

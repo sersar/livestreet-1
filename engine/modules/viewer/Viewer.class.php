@@ -993,10 +993,13 @@ class ModuleViewer extends Module {
 			if($aBlocks[$sType] && count($aBlocks[$sType])) {
 				foreach ($aBlocks[$sType] as $sBlock) {
 					if(!$sBlock) continue;
-					/**
-					 * Выбираем все файлы, входящие в данный блок
-					 */
-					$aFiles = array_filter($this->aFilesParams[$sType],create_function('$aParams','return (isset($aParams)&&($aParams["block"]=="'.$sBlock.'"));'));
+                    $fBlocks = function ($aParams) use ($sBlock) {
+                        return (isset($aParams) && ($aParams["block"] == "'.$sBlock.'"));
+                    };
+                    /**
+                     * Выбираем все файлы, входящие в данный блок
+                     */
+                    $aFiles = array_filter($this->aFilesParams[$sType], $fBlocks($aBlocks));
 					$aFiles = array_intersect(array_keys($aFiles),$aResult[$sType]);
 					if($aFiles && count($aFiles)) {
 						$aHeadFiles[$sType][] = $this->Compress($aFiles,$sType);

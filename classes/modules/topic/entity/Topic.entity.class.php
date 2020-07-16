@@ -457,7 +457,8 @@ class ModuleTopic_EntityTopic extends Entity {
 	 */
 	protected function extractExtra() {
 		if (is_null($this->aExtra)) {
-			$this->aExtra=@unserialize($this->getExtra());
+		    $aExtra=unserialize($this->getExtra());
+			$this->aExtra=is_array($aExtra)?$aExtra:array();
 		}
 	}
 	/**
@@ -586,7 +587,9 @@ class ModuleTopic_EntityTopic extends Entity {
 		if ($this->getExtraValue('answers')) {
 			$aAnswers=$this->getExtraValue('answers');
 			if ($bSortVote) {
-				uasort($aAnswers, create_function('$a,$b',"if (\$a['count'] == \$b['count']) { return 0; } return (\$a['count'] < \$b['count']) ? 1 : -1;"));
+                uasort($aAnswers, function ($a, $b) {
+                    if ($a['count'] == $b['count']) { return 0; } return ($a['count'] < $b['count']) ? 1 : -1;
+                });
 			}
 			return $aAnswers;
 		}
