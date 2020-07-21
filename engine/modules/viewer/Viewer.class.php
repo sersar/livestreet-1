@@ -222,6 +222,11 @@ class ModuleViewer extends Module {
 		 */
 		$this->InitFileParams();
 		$this->sCacheDir = Config::Get('path.smarty.cache');
+        /**
+         * Класс для переопределения файлов шаблона
+         */
+        require_once(Config::Get('path.root.engine').'/modules/viewer/plugs/resource.file.php');
+        $this->oSmarty->registerResource('file', new Smarty_Resource_File());
 	}
 	/**
 	 * Получает локальную копию модуля
