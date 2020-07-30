@@ -16,8 +16,15 @@
 */
 
 require_once(Config::Get('path.root.engine').'/lib/external/Smarty/libs/Smarty.class.php');
-require_once(Config::Get('path.root.engine').'/lib/external/CSSTidy-1.7.1/class.csstidy.php');
-require_once(Config::Get('path.root.engine').'/lib/external/JSMin-1.1.1/jsmin.php');
+
+require_once(Config::Get('path.root.engine').'/lib/external/minify/src/Minify.php');
+require_once(Config::Get('path.root.engine').'/lib/external/minify/src/JS.php');
+require_once(Config::Get('path.root.engine').'/lib/external/minify/src/CSS.php');
+
+require_once(Config::Get('path.root.engine').'/lib/external/minify/src/PathConverter/ConverterInterface.php');
+require_once(Config::Get('path.root.engine').'/lib/external/minify/src/PathConverter/Converter.php');
+
+use MatthiasMullie\Minify;
 
 /**
  * Модуль обработки шаблонов используя шаблонизатор Smarty
@@ -92,12 +99,6 @@ class ModuleViewer extends Module {
 	 * @var string
 	 */
 	protected $sCacheDir='';
-	/**
-	 * Объект CSSTidy для компрессии css-файлов
-	 *
-	 * @var csstidy
-	 */
-	protected $oCssCompressor = null;
 	/**
 	 * Заголовок HTML страницы
 	 *
@@ -227,7 +228,7 @@ class ModuleViewer extends Module {
          */
         require_once(Config::Get('path.root.engine').'/modules/viewer/plugs/resource.file.php');
         $this->oSmarty->registerResource('file', new Smarty_Resource_File());
-	}
+    }
 	/**
 	 * Получает локальную копию модуля
 	 *
@@ -768,33 +769,6 @@ class ModuleViewer extends Module {
 		}
 	}
 	/**
-	 * Создает css-компрессор и инициализирует его конфигурацию
-	 *
-	 * @return bool
-	 */
-	protected function InitCssCompressor() {
-		/**
-		 * Получаем параметры из конфигурации
-		 */
-		$aParams = Config::Get('compress.css');
-		$this->oCssCompressor =($aParams['use']) ? new csstidy() : null;
-		/**
-		 * Если компрессор не создан, завершаем работу инициализатора
-		 */
-		if(!$this->oCssCompressor) return false;
-		/**
-		 * Устанавливаем параметры
-		 */
-		$this->oCssCompressor->set_cfg('case_properties',     $aParams['case_properties']);
-		$this->oCssCompressor->set_cfg('merge_selectors',     $aParams['merge_selectors']);
-		$this->oCssCompressor->set_cfg('optimise_shorthands', $aParams['optimise_shorthands']);
-		$this->oCssCompressor->set_cfg('remove_last_;',       $aParams['remove_last_;']);
-		$this->oCssCompressor->set_cfg('css_level',           $aParams['css_level']);
-		$this->oCssCompressor->load_template($aParams['template']);
-
-		return true;
-	}
-	/**
 	 * Добавляет js файл в конец списка
 	 *
 	 * @param $sJs	Файл js
@@ -1103,13 +1077,12 @@ class ModuleViewer extends Module {
 	 * @return string
 	 */
 	protected function CompressCss($sContent) {
-		$this->InitCssCompressor();
-		if(!$this->oCssCompressor) return $sContent;
-		/**
-		 * Парсим css и отдаем обработанный результат
-		 */
-		$this->oCssCompressor->parse($sContent);
-		return $this->oCssCompressor->print->plain();
+        if (Config::Get('compress.css.use')) {
+            $oMinify = new Minify\CSS();
+            $oMinify->add($sContent);
+            $sContent = $oMinify->minify();
+        }
+        return $sContent;
 	}
 	/**
 	 * Конвертирует относительные пути в css файлах в абсолютные
@@ -1160,9 +1133,11 @@ class ModuleViewer extends Module {
 	 * @return string
 	 */
 	protected function CompressJs($sContent) {
-		$sContent = (Config::Get('compress.js.use'))
-			? JSMin::minify($sContent)
-			: $sContent;
+		if (Config::Get('compress.js.use')) {
+            $oMinify = new Minify\JS();
+            $oMinify->add($sContent);
+            $sContent = $oMinify->minify();
+        }
 		/**
 		 * Добавляем разделитель в конце файла
 		 * с расчетом на возможное их слияние в будущем

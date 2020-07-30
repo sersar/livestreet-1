@@ -9,17 +9,6 @@
 {include file='editor.tpl'}
 
 
-<script type="text/javascript">
-	jQuery(function($){
-		if (jQuery.browser.flash) {
-			ls.photoset.initSwfUpload({
-				post_params: { 'topic_id': {json var=$_aRequest.topic_id} }
-			});
-		}
-	});
-</script>
-
-
 <form id="photoset-upload-form" method="POST" enctype="multipart/form-data" onsubmit="return false;" class="modal modal-image-upload">
 	<header class="modal-header">
 		<h3>{$aLang.uploadimg}</h3>

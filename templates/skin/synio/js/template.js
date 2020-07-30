@@ -5,21 +5,7 @@ jQuery(document).ready(function($){
 	$('html').removeClass('no-js');
 
 	// Определение браузера
-	if ($.browser.opera) {
-		$('body').addClass('opera opera' + parseInt($.browser.version));
-	}
-	if ($.browser.mozilla) {
-		$('body').addClass('mozilla mozilla' + parseInt($.browser.version));
-	}
-	if ($.browser.webkit) {
-		$('body').addClass('webkit webkit' + parseInt($.browser.version));
-	}
-	if ($.browser.msie) {
-		$('body').addClass('ie');
-		if (parseInt($.browser.version) > 8) {
-			$('body').addClass('ie' + parseInt($.browser.version));
-		}
-	}
+    $('body').addClass('ua-browser-' + $.ua.browser.name + ' ua-devicetype-' + $.ua.device.type + ' ua-browser-version-' + parseInt($.ua.browser.version.split('.')[0], 10));
 
 	// Всплывающие окна
 	$('#window_login_form').jqm();
@@ -80,18 +66,10 @@ jQuery(document).ready(function($){
 	ls.autocomplete.add($(".autocomplete-users-sep"), aRouter['ajax']+'autocompleter/user/', true);
 	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', false);
 
-
-	// Скролл
-	$(window)._scrollable();
-
-
 	// Тул-бар топиков
 	ls.toolbar.topic.init();
 	// Кнопка "UP"
 	ls.toolbar.up.init();
-
-
-
 
 	toolbarPos();
 
@@ -105,63 +83,36 @@ jQuery(document).ready(function($){
 		}
 	});
 
-
 	// Всплывающие сообщения
 	if (ls.registry.get('block_stream_show_tip')) {
-		$('.js-title-comment, .js-title-topic').poshytip({
-			className: 'infobox-yellow',
-			alignTo: 'target',
-			alignX: 'left',
-			alignY: 'center',
-			offsetX: 10,
-			liveEvents: true,
-			showTimeout: 1000
+		$('.js-title-comment, .js-title-topic').tooltipster({
+            theme: 'tooltipster-shadow',
+            side: 'left'
 		});
 	}
-	$('.js-title-talk').poshytip({
-		className: 'infobox-yellow',
-		alignTo: 'target',
-		alignX: 'left',
-		alignY: 'center',
-		offsetX: 10,
-		liveEvents: true,
-		showTimeout: 1000
+	$('.js-title-talk').tooltipster({
+        theme: 'tooltipster-shadow',
+        side: 'left'
 	});
 
-
-	$('.js-infobox-vote-topic').poshytip({
-		content: function() {
-			var id = $(this).attr('id').replace('vote_area_topic_','vote-info-topic-');
-			return $('#'+id).html();
+	$('.js-infobox-vote-topic').tooltipster({
+        theme: 'tooltipster-shadow',
+        contentAsHTML: true,
+        functionBefore: function(instance, helper) {
+			var id = $(helper.origin).attr('id').replace('vote_area_topic_','vote-info-topic-');
+            instance.content($('#'+id).html());
 		},
-		className: 'infobox-topic',
-		alignTo: 'target',
-		alignX: 'center',
-		alignY: 'top',
-		offsetX: 2,
-		offsetY: 5,
-		liveEvents: true,
-		showTimeout: 100
+        side: 'top'
 	});
 
-	$('.js-tip-help').poshytip({
-		className: 'infobox-standart',
-		alignTo: 'target',
-		alignX: 'right',
-		alignY: 'center',
-		offsetX: 5,
-		liveEvents: true,
-		showTimeout: 500
+	$('.js-tip-help').tooltipster({
+        theme: 'tooltipster-shadow',
+        side: 'right'
 	});
 
-	$('.js-infobox').poshytip({
-		className: 'infobox-topic',
-		alignTo: 'target',
-		alignX: 'center',
-		alignY: 'top',
-		offsetY: 5,
-		liveEvents: true,
-		showTimeout: 300
+	$('.js-infobox').tooltipster({
+        theme: 'tooltipster-shadow',
+        side: 'top'
 	});
 
 	// подсветка кода
@@ -509,14 +460,6 @@ jQuery(document).ready(function($){
 		return false;
 	};
 
-
-	ls.infobox.aOptDef=$.extend(true,ls.infobox.aOptDef,{
-		className: 'infobox-help',
-		offsetX: -16
-	});
-	ls.infobox.sTemplateProcess=['<div class="infobox-process"><img src="'+DIR_STATIC_SKIN+'/images/loader-circle.gif" />', '</div>'].join('');
-
-
 	// Хук конца инициализации javascript-составляющих шаблона
 	ls.hook.run('ls_template_init_end',[],window);
 });
@@ -539,7 +482,7 @@ function toolbarPos() {
 
 
 // Группировка не влезающих пунктов в главном меню
-jQuery(window).load(function () {
+jQuery(window).on('load', function () {
 	navMainGroup();
 });
 

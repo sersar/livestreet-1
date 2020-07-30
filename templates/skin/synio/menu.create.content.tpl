@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	jQuery(window).load(function () {
+    jQuery(window).on('load', function() {
 		var trigger = $('#dropdown-create-trigger');
 		var menu 	= $('#dropdown-create-menu');
 		var pos 	= trigger.offset();

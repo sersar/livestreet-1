@@ -393,7 +393,7 @@ ls = (function ($) {
 			}
 		});
 
-		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0 && url.indexOf('/')!=0) {
+        if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0 && url.indexOf('/') !== 0) {
 			url=aRouter['ajax']+url+'/';
 		}
 
@@ -429,27 +429,61 @@ ls = (function ($) {
 		if (typeof(form)=='string') {
 			form=$('#'+form);
 		}
-		if (url.indexOf('http://')!=0 && url.indexOf('https://')!=0 && url.indexOf('/')!=0) {
-			url=aRouter['ajax']+url+'/';
-		}
 
-		var options={
-			type: 'POST',
-			url: url,
-			dataType: more.dataType || 'json',
-			data: {security_ls_key: LIVESTREET_SECURITY_KEY},
-			success: callback || function(){
-				ls.debug("ajax success: ");
-				ls.debug.apply(this,arguments);
-			}.bind(this),
-			error: more.error || function(){
-				ls.debug("ajax error: ");
-				ls.debug.apply(this,arguments);
-			}.bind(this)
+        if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0 && url.indexOf('/') !== 0) {
+            url=aRouter['ajax']+url+'/';
+        }
 
-		};
+        var options = {
+            type: 'POST',
+            url: url,
+            dataType: more.dataType || 'json',
+            data: {
+                security_ls_key: LIVESTREET_SECURITY_KEY
+            }
+        };
 
-		ls.hook.run('ls_ajaxsubmit_before', [options], this);
+        if (form.find('input[type="file"]').length || form.find('textarea').length) {
+            options.iframe = true;
+            options.iframeSrc = "about:blank";
+            options.javascript = false;
+        }
+
+        if (typeof callback !== 'function') {
+            callback = null;
+        }
+
+        options.success = function (result, status, xhr, form) {
+            ls.debug("ajax success: ");
+            ls.debug.apply(this, arguments);
+            if (callback) {
+                callback(result, status, xhr, form);
+            } else {
+                if (!result) {
+                    ls.msg.error(null, 'System error #1001');
+                } else if (result.bStateError) {
+                    ls.msg.error(null, result.sMsg);
+
+                    if (more && more.warning) {
+                        more.warning(result, status, xhr, form);
+                    }
+                } else {
+                    if (result.sMsg) {
+                        ls.msg.notice(null, result.sMsg);
+                    }
+                }
+            }
+        }.bind(this);
+
+        options.error = function () {
+            ls.debug("ajax error: ");
+            ls.debug.apply(this, arguments);
+            if ($.type(more.error) === 'function') {
+                more.error();
+            }
+        }.bind(this);
+
+        ls.hook.run('ls_ajaxsubmit_before', [options], this);
 		
 		form.ajaxSubmit(options);
 	};
@@ -484,7 +518,7 @@ ls = (function ($) {
 	* Лог сообщений
 	*/
 	this.log = function() {
-		if (!$.browser.msie && window.console && window.console.log) {
+		if (window.console && window.console.log) {
 			Function.prototype.bind.call(console.log, console).apply(console, arguments);
 		} else {
 			//alert(msg);
@@ -506,7 +540,7 @@ ls.autocomplete = (function ($) {
 	this.add = function(obj, sPath, multiple) {
 		if (multiple) {
 			obj.bind("keydown", function(event) {
-				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "autocomplete" ).menu.active ) {
+				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "ui-autocomplete" ).menu.active ) {
 					event.preventDefault();
 				}
 			})

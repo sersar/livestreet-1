@@ -500,21 +500,22 @@ $config['block']['rule_blog_info'] = array(
 
 
 $config['head']['default']['js']  = array(
-	"___path.root.engine_lib___/external/html5shiv.js" => array('browser'=>'lt IE 9'),
-	"___path.root.engine_lib___/external/jquery/jquery.js",
-	"___path.root.engine_lib___/external/jquery/jquery-ui.js",
+	"___path.root.engine_lib___/external/html5shiv.min.js" => array('browser'=>'lt IE 9'),
+	"___path.root.engine_lib___/external/jquery/jquery.min.js",
+	"___path.root.engine_lib___/external/jquery/jquery-ui/jquery-ui.min.js",
+    "___path.root.engine_lib___/external/jquery/jquery.form.js",
+    "___path.root.engine_lib___/external/jquery/ua-parser/dist/ua-parser.min.js" => array('merge'=>false),
 	"___path.root.engine_lib___/external/jquery/jquery.notifier.js",
-	"___path.root.engine_lib___/external/jquery/jquery.jqmodal.js",
-	"___path.root.engine_lib___/external/jquery/jquery.scrollto.js",
+	"___path.root.engine_lib___/external/jquery/jquery.modal.min.js",
+	"___path.root.engine_lib___/external/jquery/jquery.scrollTo.min.js",
 	"___path.root.engine_lib___/external/jquery/jquery.rich-array.min.js",
 	"___path.root.engine_lib___/external/jquery/markitup/jquery.markitup.js",
-	"___path.root.engine_lib___/external/jquery/jquery.form.js",
 	"___path.root.engine_lib___/external/jquery/jquery.jqplugin.js",
 	"___path.root.engine_lib___/external/jquery/jquery.cookie.js",
 	"___path.root.engine_lib___/external/jquery/jquery.serializejson.js",
 	"___path.root.engine_lib___/external/jquery/jquery.file.js",
-	"___path.root.engine_lib___/external/jquery/jcrop/jquery.Jcrop.js",
-	"___path.root.engine_lib___/external/jquery/poshytip/jquery.poshytip.js",
+	"___path.root.engine_lib___/external/jquery/jcrop/js/jquery.Jcrop.min.js",
+	"___path.root.engine_lib___/external/jquery/tooltipster/dist/js/tooltipster.bundle.min.js",
 	"___path.root.engine_lib___/external/jquery/jquery.placeholder.min.js",
 	"___path.root.engine_lib___/external/jquery/jquery.charcount.js",
 	"___path.root.engine_lib___/external/prettify/prettify.js",
@@ -546,7 +547,7 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",
 	"___path.root.engine_lib___/external/jquery/markitup/skins/simple/style.css",
 	"___path.root.engine_lib___/external/jquery/markitup/sets/default/style.css",
-	"___path.root.engine_lib___/external/jquery/jcrop/jquery.Jcrop.css",
+    "___path.root.engine_lib___/external/jquery/jcrop/css/jquery.Jcrop.min.css",
 	"___path.root.engine_lib___/external/prettify/prettify.css",
 	"___path.static.skin___/css/main.css",
 	"___path.static.skin___/css/grid.css",
@@ -567,12 +568,6 @@ $config['head']['default']['css'] = array(
  */
 $config['compress']['css']['merge'] = true;       // указывает на необходимость слияния файлов по указанным блокам.
 $config['compress']['css']['use']   = false;       // указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.
-$config['compress']['css']['case_properties']     = 1;
-$config['compress']['css']['merge_selectors']     = 0;
-$config['compress']['css']['optimise_shorthands'] = 1;
-$config['compress']['css']['remove_last_;']       = true;
-$config['compress']['css']['css_level']           = 'CSS2.1';
-$config['compress']['css']['template']            = "highest_compression";
 /**
  * Параметры компрессии js-файлов
  */

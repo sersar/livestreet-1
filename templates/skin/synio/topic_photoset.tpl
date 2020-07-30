@@ -2,7 +2,7 @@
 
 
 <script type="text/javascript">
-	jQuery(window).load(function($) {
+	jQuery(window).on('load', function() {
 		ls.photoset.showMainPhoto({$oTopic->getId()});
 	});
 </script>
@@ -46,16 +46,15 @@
 
 
 {if !$bTopicList}
-	<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/prettyPhoto/js/prettyPhoto.js"></script>	
-	<link rel='stylesheet' type='text/css' href="{cfg name='path.root.engine_lib'}/external/prettyPhoto/css/prettyPhoto.css" />
+	<script type="text/javascript" src="{cfg name='path.root.engine_lib'}/external/viewerjs/dist/viewer.min.js"></script>
+	<link rel='stylesheet' type='text/css' href="{cfg name='path.root.engine_lib'}/external/viewerjs/dist/viewer.min.css" />
 	<script type="text/javascript">
-		jQuery(document).ready(function($) {	
-			$('.photoset-image').prettyPhoto({
-				social_tools:'',
-				show_title: false,
-				slideshow:false,
-				deeplinking: false
-			});
+		jQuery(document).ready(function($) {
+            const viewer = new Viewer(document.getElementById('topic-photo-images'), {
+                url: 'data-original',
+                title: false
+            });
+            ls.photoset.setViewer(viewer);
 		});
 	</script>
 	
@@ -68,7 +67,7 @@
 			{assign var=aPhotos value=$oTopic->getPhotosetPhotos(0, $oConfig->get('module.topic.photoset.per_page'))}
 			{if count($aPhotos)}                                
 				{foreach from=$aPhotos item=oPhoto}
-					<li><a class="photoset-image" href="{$oPhoto->getWebPath(1000)}" rel="[photoset]"  title="{$oPhoto->getDescription()}"><img src="{$oPhoto->getWebPath('50crop')}" alt="{$oPhoto->getDescription()}" /></a></li>                                    
+					<li><img src="{$oPhoto->getWebPath('50crop')}" data-original="{$oPhoto->getWebPath(1000)}" alt="{$oPhoto->getDescription()}" /></li>
 					{assign var=iLastPhotoId value=$oPhoto->getId()}
 				{/foreach}
 			{/if}

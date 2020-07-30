@@ -32,9 +32,11 @@ $config['head']['default']['js'][] = '___path.static.skin___/js/template.js';
 $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/reset.css",
 	"___path.static.skin___/css/base.css",
+    "___path.root.engine_lib___/external/jquery/tooltipster/dist/css/tooltipster.bundle.min.css",
+    "___path.root.engine_lib___/external/jquery/tooltipster/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css",
 	"___path.root.engine_lib___/external/jquery/markitup/skins/synio/style.css",
 	"___path.root.engine_lib___/external/jquery/markitup/sets/synio/style.css",
-	"___path.root.engine_lib___/external/jquery/jcrop/jquery.Jcrop.css",
+    "___path.root.engine_lib___/external/jquery/jcrop/css/jquery.Jcrop.min.css",
 	"___path.root.engine_lib___/external/prettify/prettify.css",
 	"___path.static.skin___/css/grid.css",
 	"___path.static.skin___/css/common.css",
@@ -53,7 +55,9 @@ $config['head']['default']['css'] = array(
 	"___path.static.skin___/css/wall.css",
 	"___path.static.skin___/css/infobox.css",
 	"___path.static.skin___/css/jquery.notifier.css",
-	"___path.static.skin___/css/smoothness/jquery-ui.css",
+//	"___path.static.skin___/css/smoothness/jquery-ui.css",
+    "___path.root.engine_lib___/external/jquery/jquery-ui/jquery-ui.min.css",
+    "___path.root.engine_lib___/external/jquery/jquery-ui/jquery-ui.theme.min.css",
 	"___path.static.skin___/themes/___view.theme___/style.css",
 	"___path.static.skin___/css/print.css",
 );

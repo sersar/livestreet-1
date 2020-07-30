@@ -5,7 +5,8 @@ ls.photoset =( function ($) {
 	this.idLast=0;
 	this.isLoading=false;
 	this.swfu;
-	
+	this.viewer;
+
 	this.initSwfUpload = function(opt) {
 		opt=opt || {};
 		opt.button_placeholder_id = 'photoset-start-upload';
@@ -102,6 +103,14 @@ ls.photoset =( function ($) {
 		)
 	}
 
+	this.setViewer = function (viewer) {
+        this.viewer = viewer;
+    }
+
+    this.getViewer = function () {
+        return this.viewer;
+    }
+
 	this.getMore = function(topic_id)
 	{
 		if (this.isLoading) return;
@@ -112,17 +121,12 @@ ls.photoset =( function ($) {
 			if (!result.bStateError) {
 				if (result.photos) {
 					$.each(result.photos, function(index, photo) {
-						var image = '<li><a class="photoset-image" href="'+photo.path+'" rel="[photoset]" title="'+photo.description+'"><img src="'+photo.path_thumb+'" alt="'+photo.description+'" /></a></li>';
+						var image = '<li><img src="'+photo.path_thumb+'" data-original="'+photo.path+'" alt="'+photo.description+'" /></li>';
 						$('#topic-photo-images').append(image);
 						this.idLast=photo.id;
-						$('.photoset-image').unbind('click');
-						$('.photoset-image').prettyPhoto({
-							social_tools:'',
-							show_title: false,
-							slideshow:false,
-							deeplinking: false
-						});
 					}.bind(this));
+                    // Обновляем список изображений
+                    ls.photoset.getViewer().update();
 				}
 				if (!result.bHaveNext || !result.photos) {
 					$('#topic-photo-more').remove();
