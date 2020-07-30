@@ -1,88 +1,85 @@
-/*
- *jQuery browser plugin detection 1.0.3
- * http://plugins.jquery.com/project/jqplugin
- * Checks for plugins / mimetypes supported in the browser extending the jQuery.browser object
- * Copyright (c) 2008 Leonardo Rossetti motw.leo@gmail.com
- * MIT License: http://www.opensource.org/licenses/mit-license.php
-   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-   THE SOFTWARE.
-*/
-(function ($) {
-	//$.getScript("http://java.com/js/deployJava.js");
+// jQuery Plugin Boilerplate
+// A boilerplate for jumpstarting jQuery plugins development
+// version 1.1, May 14th, 2011
+// by Stefan Gabos
+// http://stefangabos.ro/jquery/jquery-plugin-boilerplate-revisited/#requirements
+// remember to change every instance of "pluginName" to the name of your plugin!
 
-	//checks if browser object exists
-	if (typeof $.browser === "undefined" || !$.browser) {
-		var browser = {};
-		$.extend(browser);
-	}
-	var pluginList = {
-		flash: {
-			activex: ["ShockwaveFlash.ShockwaveFlash", "ShockwaveFlash.ShockwaveFlash.3", "ShockwaveFlash.ShockwaveFlash.4", "ShockwaveFlash.ShockwaveFlash.5", "ShockwaveFlash.ShockwaveFlash.6", "ShockwaveFlash.ShockwaveFlash.7"],
-			plugin: /flash/gim
-		},
-		sl: {
-			activex: ["AgControl.AgControl"],
-			plugin: /silverlight/gim
-		},
-		pdf: {
-			activex: ["acroPDF.PDF.1", "PDF.PdfCtrl.1", "PDF.PdfCtrl.4", "PDF.PdfCtrl.5", "PDF.PdfCtrl.6"],
-			plugin: /adobe\s?acrobat/gim
-		},
-		qtime: {
-			activex: ["QuickTime.QuickTime", "QuickTimeCheckObject.QuickTimeCheck.1", "QuickTime.QuickTime.4"],
-			plugin: /quicktime/gim
-		},
-		wmp: {
-			activex: ["WMPlayer.OCX", "MediaPlayer.MediaPlayer.1"],
-			plugin: /(windows\smedia)|(Microsoft)/gim
-		},
-		shk: {
-			activex: ["SWCtl.SWCtl", "SWCt1.SWCt1.7", "SWCt1.SWCt1.8", "SWCt1.SWCt1.9", "ShockwaveFlash.ShockwaveFlash.1"],
-			plugin: /shockwave/gim
-		},
-		rp: {
-			activex: ["RealPlayer", "rmocx.RealPlayer G2 Control.1"],
-			plugin: /realplayer/gim
-		}
-	};
-	var isSupported = function (p) {
-		if (window.ActiveXObject) {
-			$.browser[p] = false;
-			
-			for (i = 0; i < pluginList[p].activex.length; i++) {
-				try {
-					new ActiveXObject(pluginList[p].activex[i]);
-					$.browser[p] = true;
-				} catch (e) {}	
-			}
-		} else {
-			$.each(navigator.plugins, function () {
-				if (this.name.match(pluginList[p].plugin)) {
-					$.browser[p] = true;
-					return false;
-				} else {
-					$.browser[p] = false;
-				}
-			});
-		}
-	};
-	
-	$.each(pluginList, function (i, n) {
-		isSupported(i);
-	});
-	//uses sun script to detect if java plugin is available
-	/*
-	$.getScript("http://java.com/js/deployJava.js", function () {
-		if (deployJava.versionCheck("1.6.0+") || deployJava.versionCheck("1.4") || deployJava.versionCheck("1.5.0*")) {
-			$.browser.java = true;
-		} else {
-			$.browser.java = false;
-		}
-	});
-	*/
+(function ($) {
+    // here we go!
+    $.pluginName = function (element, options) {
+        // plugin's default options
+        // this is private property and is  accessible only from inside the plugin
+        var defaults = {
+            foo: 'bar',
+            // if your plugin is event-driven, you may provide callback capabilities for its events.
+            // execute these functions before or after events of your plugin, so that users may customize
+            // those particular events without changing the plugin's code
+
+            // EDIT: wouldn't it be better to trigger custom events with the appropiate plugin's namespace?
+            onFoo: function () {
+            }
+        };
+
+        // to avoid confusions, use "plugin" to reference the current instance of the object
+        var plugin = this;
+
+        // this will hold the merged default, and user-provided options
+        // plugin's properties will be available through this object like:
+        // plugin.settings.propertyName from inside the plugin or
+        // element.data('pluginName').settings.propertyName from outside the plugin, where "element" is the
+        // element the plugin is attached to;
+        plugin.settings = {};
+
+        var $element = $(element),  // reference to the jQuery version of DOM element the plugin is attached to
+            element = element;        // reference to the actual DOM element
+
+        // the "constructor" method that gets called when the object is created
+        plugin.init = function () {
+            // the plugin's final properties are the merged default and user-provided options (if any)
+            plugin.settings = $.extend({}, defaults, options);
+            // code goes here
+        };
+
+        // public methods
+        // these methods can be called like:
+        // plugin.methodName(arg1, arg2, ... argn) from inside the plugin or
+        // element.data('pluginName').publicMethod(arg1, arg2, ... argn) from outside the plugin, where "element"
+        // is the element the plugin is attached to;
+
+        // a public method. for demonstration purposes only - remove it!
+        plugin.foo_public_method = function () {
+            // code goes here
+        };
+        // private methods
+        // these methods can be called only from inside the plugin like:
+        // methodName(arg1, arg2, ... argn)
+        // a private method. for demonstration purposes only - remove it!
+        var foo_private_method = function () {
+            // code goes here
+        };
+        // fire up the plugin!
+        // call the "constructor" method
+        plugin.init();
+    };
+
+    // http://remysharp.com/2010/06/03/signs-of-a-poorly-written-jquery-plugin/
+    // add the plugin to the jQuery.fn object
+    $.fn.pluginName = function (options) {
+        // iterate through the DOM elements we are attaching the plugin to
+        return this.each(function () {
+            // if plugin has not already been attached to the element
+            if (undefined === $(this).data('pluginName')) {
+                // create a new instance of the plugin
+                // pass the DOM element and the user-provided options as arguments
+                var plugin = new $.pluginName(this, options);
+                // in the jQuery version of the element
+                // store a reference to the plugin object
+                // you can later access the plugin and its methods and properties like
+                // element.data('pluginName').publicMethod(arg1, arg2, ... argn) or
+                // element.data('pluginName').settings.propertyName
+                $(this).data('pluginName', plugin);
+            }
+        });
+    }
 })(jQuery);
