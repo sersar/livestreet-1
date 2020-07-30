@@ -456,10 +456,12 @@ class ModuleTopic_EntityTopic extends Entity {
 	 * Извлекает сериализованные данные топика
 	 */
 	protected function extractExtra() {
-		if (is_null($this->aExtra)) {
-		    $aExtra=unserialize($this->getExtra());
-			$this->aExtra=is_array($aExtra)?$aExtra:array();
-		}
+        if (is_null($this->aExtra)) {
+            $this->aExtra = @unserialize($this->getExtra());
+        }
+        if (!is_array($this->aExtra)) {
+            $this->aExtra = array();
+        }
 	}
 	/**
 	 * Устанавливает значение нужного параметра
