@@ -10,7 +10,18 @@ ls.settings = (function ($) {
 			onShiftEnter:  	{keepDefault:false, replaceWith:'<br />\n'},
 			onCtrlEnter:  	{keepDefault:false, openWith:'\n<p>', closeWith:'</p>'},
 			onTab:    		{keepDefault:false, replaceWith:'    '},
+			nameSpace:          "markItUp", // Useful to prevent multi-instances CSS conflict
 			markupSet:  [
+			{name:'Цвет текста', className:'editor-color', openWith:'<font color="[![Color]!]">', closeWith:'</font>', dropMenu: [
+          {name:'', openWith:'<font color="orange">', closeWith:'</font>', className:'col1-2' },
+          {name:'', openWith:'<font color="red">', closeWith:'</font>', className:'col1-3' },
+          {name:'', openWith:'<font color="blue">', closeWith:'</font>', className:'col2-1' },
+          {name:'', openWith:'<font color="purple">', closeWith:'</font>', className:'col2-2' },
+          {name:'', openWith:'<font color="green">', closeWith:'</font>', className:'col2-3' },
+          {name:'', openWith:'<font color="gray">', closeWith:'</font>', className:'col3-2' },
+          {name:'', openWith:'<font color="black">', closeWith:'</font>', className:'col3-3' }
+            ]},
+		  {separator:'---------------' },
 				{name:'H4', className:'editor-h4', openWith:'<h4>', closeWith:'</h4>' },
 				{name:'H5', className:'editor-h5', openWith:'<h5>', closeWith:'</h5>' },
 				{name:'H6', className:'editor-h6', openWith:'<h6>', closeWith:'</h6>' },
@@ -30,9 +41,12 @@ ls.settings = (function ($) {
 				{name: ls.lang.get('panel_video'), className:'editor-video', replaceWith:'<video>[!['+ls.lang.get('panel_video_promt')+':!:http://]!]</video>' },
 				{name: ls.lang.get('panel_url'), className:'editor-link', key:'L', openWith:'<a href="[!['+ls.lang.get('panel_url_promt')+':!:http://]!]"(!( title="[![Title]!]")!)>', closeWith:'</a>', placeHolder:'Your text to link...' },
 				{name: ls.lang.get('panel_user'), className:'editor-user', replaceWith:'<ls user="[!['+ls.lang.get('panel_user_promt')+']!]" />' },
+				{name: ls.lang.get('panel_vid'), className:'editor-vid', replaceWith:'<vid>[!['+ls.lang.get('panel_vid_promt')+':!:http://]!]</vid>' },
 				{separator:'---------------' },
 				{name: ls.lang.get('panel_clear_tags'), className:'editor-clean', replaceWith: function(markitup) { return markitup.selection.replace(/<(.*?)>/g, "") } },
-				{name: ls.lang.get('panel_cut'), className:'editor-cut', replaceWith: function(markitup) { if (markitup.selection) return '<cut name="'+markitup.selection+'">'; else return '<cut>' }}
+				{name: ls.lang.get('panel_cut'), className:'editor-cut', replaceWith: function(markitup) { if (markitup.selection) return '<cut name="'+markitup.selection+'">'; else return '<cut>' }},
+			    {separator:'---------------' },
+				{name: ls.lang.get('panel_spoiler'), className: 'editor-spoiler', replaceWith:'<spoiler title="Скрытый текст">[!['+ls.lang.get('panel_spoiler_promt')+']!]</spoiler>' },
 			]
 		}
 	};
@@ -53,7 +67,9 @@ ls.settings = (function ($) {
 				{name: ls.lang.get('panel_url'), className:'editor-link', key:'L', openWith:'<a href="[!['+ls.lang.get('panel_url_promt')+':!:http://]!]"(!( title="[![Title]!]")!)>', closeWith:'</a>', placeHolder:'Your text to link...' },
 				{name: ls.lang.get('panel_user'), className:'editor-user', replaceWith:'<ls user="[!['+ls.lang.get('panel_user_promt')+']!]" />' },
 				{separator:'---------------' },
-				{name: ls.lang.get('panel_clear_tags'), className:'editor-clean', replaceWith: function(markitup) { return markitup.selection.replace(/<(.*?)>/g, "") } }
+				{name: ls.lang.get('panel_clear_tags'), className:'editor-clean', replaceWith: function(markitup) { return markitup.selection.replace(/<(.*?)>/g, "") } },
+			    {separator:'---------------' },
+				{name: ls.lang.get('panel_spoiler'), className: 'editor-spoiler', replaceWith:'<spoiler title="Скрытый текст">[!['+ls.lang.get('panel_spoiler_promt')+']!]</spoiler>' },
 			]
 		}
 	};
