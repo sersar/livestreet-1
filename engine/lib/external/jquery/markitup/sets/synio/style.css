@@ -2,26 +2,58 @@
 // markItUp!
 // By Jay Salvat - http://markitup.jaysalvat.com/
 // ------------------------------------------------------------------*/
-.markItUp a { background: url(images/icons.png) no-repeat; }
-.markItUp .editor-h4 a 			{ background-position: -11px -9px; }
-.markItUp .editor-h5 a 			{ background-position: -39px -9px; }
-.markItUp .editor-h6 a 			{ background-position: -65px -9px; }
-.markItUp .editor-bold a 		{ background-position: -107px -9px; }
-.markItUp .editor-italic a 		{ background-position: -134px -9px; }
-.markItUp .editor-stroke a 		{ background-position: -188px -9px; }
-.markItUp .editor-underline a 	{ background-position: -161px -9px; }
-.markItUp .editor-quote a 		{ background-position: -326px -9px; }
-.markItUp .editor-code a 		{ background-position: -353px -9px; }
-.markItUp .editor-ul a 			{ background-position: -257px -9px; }
-.markItUp .editor-ol a 			{ background-position: -230px -9px; }
-.markItUp .editor-li a 			{ background-position: -550px -9px; }
 
-.markItUp .editor-picture a 	{ background-position: -423px -9px; }
-.markItUp .editor-image a 		{ background-position: -423px -9px; }
-.markItUp .editor-link a 		{ background-position: -299px -9px; }
+.markItUp .editor-color a 	    { background-image:url(images/color.png); }
+.markItUp .col1-1 a {
+		background-color:yellow;
+	}
+	.markItUp .col1-2 a {
+		background-color:orange;
+	}
+	.markItUp .col1-3 a {
+		background-color:red;
+	}
+	
+	.markItUp .col2-1 a {
+		background-color:blue;
+	}
+	.markItUp .col2-2 a {
+		background-color:purple;
+	}
+	.markItUp .col2-3 a {
+		background-color:green;
+	}
+	
+	.markItUp .col3-1 a {
+		background-color:white;
+	}
+	.markItUp .col3-2 a {
+		background-color:gray;
+	}
+	.markItUp .col3-3 a {
+		background-color:black;
+	}
+.markItUp .editor-h4 a 			{ background-image:url(images/h4.png); }
+.markItUp .editor-h5 a 			{ background-image:url(images/h5.png); }
+.markItUp .editor-h6 a 			{ background-image:url(images/h6.png); }
+.markItUp .editor-bold a 		{ background-image:url(images/bold.png); }
+.markItUp .editor-italic a 		{ background-image:url(images/italic.png); }
+.markItUp .editor-stroke a 		{ background-image:url(images/stroke.png); }
+.markItUp .editor-underline a 	{ background-image:url(images/underline.png); }
+.markItUp .editor-quote a 		{ background-image:url(images/quote.png); }
+.markItUp .editor-code a 		{ background-image:url(images/code.png); }
+.markItUp .editor-ul a 			{ background-image:url(images/ul.png); }
+.markItUp .editor-ol a 			{ background-image:url(images/ol.png); }
+.markItUp .editor-li a 			{ background-image:url(images/li.png); }
 
-.markItUp .editor-clean a 		{ background-position: -519px -9px; }
-.markItUp .editor-preview a 	{ background-position: -11px -9px; }
-.markItUp .editor-cut a 		{ background-position: -491px -9px; }
-.markItUp .editor-video a 		{ background-position: -450px -9px; }
-.markItUp .editor-user a 		{ background-position: -380px -9px; }
+.markItUp .editor-picture a 	{ background-image:url(images/picture.png); }
+.markItUp .editor-image a 		{ background-image:url(images/image.png); }
+.markItUp .editor-link a 		{ background-image:url(images/link.png); }
+
+.markItUp .editor-clean a 		{ background-image:url(images/clean.png); }
+.markItUp .editor-preview a 	{ background-image:url(images/preview.png); }
+.markItUp .editor-cut a 		{ background-image:url(images/cut.png); }
+.markItUp .editor-video a 		{ background-image:url(images/video.png); }
+.markItUp .editor-user a 		{ background-image:url(images/user.png); }
+.markItUp .editor-vid a 		{ background-image:url(images/vid.png); }
+.markItUp .editor-spoiler a 	{ background-image:url(images/spoiler.png); }
