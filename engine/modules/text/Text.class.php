@@ -167,12 +167,7 @@ class ModuleText extends Module {
          * rutube.ru fixed
          */
         $sText = preg_replace(
-            '/<video>http(?:s|):\/\/(?:www\.|)rutube\.ru\/tracks\/(\d+)\.html.*<\/video>/Ui',
-            '<div align="'.$iAlign.'"><iframe src="//rutube.ru/play/embed/$1" width="'.$iWidth.'" height="'.$iHeight.'" '.$sIframeAttr.'></iframe></div>',
-            $sText
-        );
-        $sText = preg_replace(
-            '/<video>http(?:s|):\/\/(?:www\.|)rutube\.ru\/video\/(\w+)\/?<\/video>/Ui',
+            '/<video>http(?:s|):\/\/(?:www\.|)rutube\.ru\/video\/([a-zA-Z0-9_\-]+?)(&.+)?(?:\/|)<\/video>/Ui',
             '<div align="'.$iAlign.'"><iframe src="//rutube.ru/play/embed/$1" width="'.$iWidth.'" height="'.$iHeight.'" '.$sIframeAttr.'></iframe></div>',
             $sText
         );
