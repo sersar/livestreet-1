@@ -1,8 +1,12 @@
 {hook run='profile_sidebar_begin' oUserProfile=$oUserProfile}
-
+{assign var="oSession" value=$oUserProfile->getSession()}
 <section class="block block-type-profile">
 	<div class="profile-photo-wrapper">
-		<div class="status {if $oUserProfile->isOnline()}status-online{else}status-offline{/if}">{if $oUserProfile->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}</div>
+		<div class="status {if (time() - strtotime($oSession->getDateLast()))<900}status-online{else}status-offline{/if}">{if (time() - strtotime($oSession->getDateLast()))<900}
+        {$aLang.user_status_online}
+    {else}
+        {$aLang.user_status_offline}
+    {/if}</div>
 		<a href="{$oUserProfile->getUserWebPath()}"><img src="{$oUserProfile->getProfileFotoPath()}" alt="photo" class="profile-photo" id="foto-img" /></a>
 	</div>
 	

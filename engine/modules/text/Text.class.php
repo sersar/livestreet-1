@@ -117,22 +117,91 @@ class ModuleText extends Module {
 	 * @return string
 	 */
 	public function VideoParser($sText) {
+		
+		// Размеры и атрибуты окна вставленного видео.
+        $iWidth = 680;
+        $iHeight = 420;
+        $iAlign = "center";
+        $sIframeAttr = 'frameborder="0" webkitAllowFullScreen mozallowfullscreen allowfullscreen="allowfullscreen"';
 		/**
-		 * youtube.com
-		 */
-		$sText = preg_replace('/<video>http:\/\/(?:www\.|)youtube\.com\/watch\?v=([a-zA-Z0-9_\-]+)(&.+)?<\/video>/Ui', '<iframe width="560" height="315" src="http://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>', $sText);
+		* любое видео
+		*/		
+		$sText = preg_replace('/<vid>(.*)<\/vid>/Ui', '<div align="'.$iAlign.'">
+		<video width="95%" controls="controls">
+<source type="video/webm" src="$1" preload="auto"></source>
+<source type="video/mp4" src="$1" preload="auto"></source>
+<source type="video/avi" src="$1" preload="auto"></source>
+<source type="video/ogg" src="$1" preload="auto"></source>
+<source type="video/flv" src="$1" preload="auto"></source>
+<source type="video/3gp" src="$1" preload="auto"></source>
+<p>Ваш пользовательский агент не поддерживает элемент HTML5 Video</p>
+</video>
+		</div>',
+		$sText
+		);
 		/**
-		 * vimeo.com
+		 * youtu.be
 		 */
-		$sText = preg_replace('/<video>http:\/\/(?:www\.|)vimeo\.com\/(\d+).*<\/video>/i', '<iframe src="http://player.vimeo.com/video/$1" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>', $sText);
+		$sText = preg_replace('/<video>https:\/\/(?:www\.|)youtu\.be\/([a-zA-Z0-9_\-]+)(&.+)?<\/video>/Ui', '<iframe width="560" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>', $sText);
 		/**
-		 * rutube.ru
+		 * youtube Shorts
 		 */
-		$sText = preg_replace('/<video>http:\/\/(?:www\.|)rutube\.ru\/tracks\/(\d+)\.html.*<\/video>/Ui', '<OBJECT width="470" height="353"><PARAM name="movie" value="http://video.rutube.ru/$1"></PARAM><PARAM name="wmode" value="window"></PARAM><PARAM name="allowFullScreen" value="true"></PARAM><EMBED src="http://video.rutube.ru/$1" type="application/x-shockwave-flash" wmode="window" width="470" height="353" allowFullScreen="true" ></EMBED></OBJECT>', $sText);
+		$sText = preg_replace('/<video>https:\/\/(?:www\.|)youtube\.com\/shorts\/([a-zA-Z0-9_\-]+)(&.+)?<\/video>/Ui', '<iframe width="560" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>', $sText);
 		/**
-		 * video.yandex.ru
-		 */
-		$sText = preg_replace('/<video>http:\/\/video\.yandex\.ru\/users\/([a-zA-Z0-9_\-]+)\/view\/(\d+).*<\/video>/i', '<object width="467" height="345"><param name="video" value="http://video.yandex.ru/users/$1/view/$2/get-object-by-url/redirect"></param><param name="allowFullScreen" value="true"></param><param name="scale" value="noscale"></param><embed src="http://video.yandex.ru/users/$1/view/$2/get-object-by-url/redirect" type="application/x-shockwave-flash" width="467" height="345" allowFullScreen="true" scale="noscale" ></embed></object>', $sText);
+         * youtube.com fixed
+         */
+        $sText = preg_replace(
+        '/<video>(?:http(?:s|):|)(?:\/\/|)(?:www\.|m.|)youtu(?:\.|)be(?:-nocookie|)(?:\.com|)\/(?:e(?:mbed|)\/|v\/|watch\?(?:.+&|)v=|)([a-zA-Z0-9_\-]+?)(&.+)?<\/video>/Ui',
+        '<div align="'.$iAlign.'"><iframe width="'.$iWidth.'" height="'.$iHeight.'" '.$sIframeAttr.' src="//www.youtube.com/embed/$1?modestbranding=1&" frameborder="0" allowfullscreen ></iframe></div>',
+        $sText
+        );
+		/**
+         * vimeo.com fixed
+         */
+        $sText = preg_replace(
+		    '/<video>http(?:s|):\/\/(?:www\.|)vimeo\.com\/(\d+).*<\/video>/i',
+            '<div align="'.$iAlign.'"><iframe src="//player.vimeo.com/video/$1" width="'.$iWidth.'" height="'.$iHeight.'" '.$sIframeAttr.'></iframe></div>',
+            $sText
+        );
+		/**
+         * rutube.ru fixed
+         */
+        $sText = preg_replace(
+            '/<video>http(?:s|):\/\/(?:www\.|)rutube\.ru\/video\/([a-zA-Z0-9_\-]+?)(&.+)?(?:\/|)<\/video>/Ui',
+            '<div align="'.$iAlign.'"><iframe src="//rutube.ru/play/embed/$1" width="'.$iWidth.'" height="'.$iHeight.'" '.$sIframeAttr.'></iframe></div>',
+            $sText
+        );
+		/**
+	    * coub.com fixed
+	    */
+	    $sText = preg_replace(
+		    '/<video>http(?:s|):\/\/(?:www\.|)coub\.com\/view\/(\w+).*<\/video>/i', 
+		    '<div align="'.$iAlign.'"><iframe src="//coub.com/embed/$1?muted=false&autostart=false&originalSize=false&hideTopBar=false&noSiteButtons=false&startWithHD=false" width="'.$iWidth.'" height="'.$iHeight.'" '.$sIframeAttr.'></iframe></div>', 
+		$sText
+		);
+		/**
+	    * ok.ru fixed
+	    */
+	    $sText = preg_replace(
+		    '/<video>http(?:s|):\/\/(?:www\.|)ok\.ru\/video\/(\w+).*<\/video>/i', 
+		    '<div align="'.$iAlign.'"><iframe src="//ok.ru/videoembed/$1" width="'.$iWidth.'" height="'.$iHeight.'" '.$sIframeAttr.'></iframe></div>', 
+		$sText
+		);
+		/**
+	    * vk.com HASH not working, embeded link only
+	    */
+		$sText = preg_replace(
+		    '/<video>(https:\/\/(?:www\.|)vk\.com\/video_ext\.php.*)<\/video>/i', 
+			'<div align="'.$iAlign.'"><iframe src="$1" width="'.$iWidth.'" height="'.$iHeight.'" '.$sIframeAttr.'></iframe></div>', 
+		$sText
+		);
+		/**
+	    * dailymotion.com fixed
+	    */
+	    $sText = preg_replace(
+		    '/<video>http(?:s|):\/\/(?:www\.|)dai\.ly\/(\w+).*<\/video>/i','<div align="'.$iAlign.'"><iframe src="//dailymotion.com/embed/video/$1" width="'.$iWidth.'" height="'.$iHeight.'" '.$sIframeAttr.'></iframe></div>', 
+		$sText
+		);
 		return $sText;
 	}
 	/**

@@ -6,9 +6,13 @@ return array(
 		'cfgAllowTags' => array(
 			// вызов метода с параметрами
 			array(
-				array('ls','cut','a', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote', 'iframe','table','th','tr','td'),
-			),			
+				array('ls','cut','a','color', 'img', 'i', 'b', 'u', 's', 'video', 'em',  'strong', 'nobr', 'li', 'ol', 'ul', 'sup', 'abbr', 'sub', 'acronym', 'h4', 'h5', 'h6', 'br', 'hr', 'pre', 'code', 'object', 'param', 'embed', 'blockquote', 'iframe','table','th','tr','td','spoiler','font','vid','script'),
+			
+			
+			),
+			
 		),
+		
 		// Коротие теги типа
 		'cfgSetTagShort' => array(
 			array(
@@ -18,12 +22,19 @@ return array(
 		// Преформатированные теги
 		'cfgSetTagPreformatted' => array(
 			array(
-				array('pre','code','video')
+				array('pre','code','video','vid','script')
 			),
 		),
+		
 		// Разрешённые параметры тегов
 		'cfgAllowTagParams' => array(
 			// вызов метода
+			// Colors
+			array(
+                                'font',
+                                array('color'=> array('orange','red','blue','purple','green','gray','black',)
+													  )
+			),
 			array(
 				'img',
 				array('src', 'alt' => '#text', 'title', 'align' => array('right', 'left', 'center', 'middle'), 'width' => '#int', 'height' => '#int', 'hspace' => '#int', 'vspace' => '#int', 'class'=> array('image-center'))
@@ -40,7 +51,7 @@ return array(
 			),
 			array(
 				'object',
-				array('width' => '#int', 'height' => '#int', 'data' => array('#domain'=>array('youtube.com','rutube.ru','vimeo.com')), 'type' => '#text')
+				array('width' => '#int', 'height' => '#int', 'data' => array('#domain'=>array('youtube.com','rutube.ru','vimeo.com','coub.com','ok.ru','vk.com','dailymotion.com')), 'type' => '#text')
 			),
 			array(
 				'param',
@@ -48,7 +59,7 @@ return array(
 			),
 			array(
 				'embed',
-				array('src' => array('#domain'=>array('youtube.com','rutube.ru','vimeo.com')), 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text', 'wmode'=> '#text')
+				array('src' => array('#domain'=>array('youtube.com','rutube.ru','vimeo.com','coub.com','ok.ru','vk.com','dailymotion.com')), 'type' => '#text','allowscriptaccess' => '#text', 'allowfullscreen' => '#text','width' => '#int', 'height' => '#int', 'flashvars'=> '#text', 'wmode'=> '#text')
 			),
 			array(
 				'acronym',
@@ -59,8 +70,12 @@ return array(
 				array('title')
 			),
 			array(
+				'script',
+				array('type'=>'#text')
+			),
+			array(
 				'iframe',
-				array('width' => '#int', 'height' => '#int', 'src' => array('#domain'=>array('youtube.com','rutube.ru','vimeo.com')))
+				array('width' => '#int', 'height' => '#int', 'src' => array('#domain'=>array('youtube.com','rutube.ru','vimeo.com','coub.com','ok.ru','vk.com','dailymotion.com')))
 			),
 			array(
 				'ls',
@@ -74,6 +89,10 @@ return array(
 				'table',
 				array('border'=>'#int','cellpadding'=>'#int','cellspacing'=>'#int','align'=>array('right', 'left', 'center'),'height'=>'#int','width'=>'#int')
 			),
+			array(
+				'spoiler',
+				array('title'=>'#text')
+			),
 		),
 		// допустимые комбинации значений у параметров
 		'cfgSetTagParamCombination' => array(
@@ -85,7 +104,7 @@ return array(
 						'value'=>array('sameDomain'),
 					),
 					'movie' => array(
-						'value'=>array('#domain'=>array('youtube.com','rutube.ru','vimeo.com')),
+						'value'=>array('#domain'=>array('youtube.com','rutube.ru','vimeo.com','coub.com','ok.ru','vk.com','dailymotion.com')),
 					),
 					'align' => array(
 						'value'=>array('bottom','middle','top','left','right'),
@@ -146,7 +165,7 @@ return array(
 		// Теги которые необходимо вырезать из текста вместе с контентом
 		'cfgSetTagCutWithContent' => array(
 			array(
-				array('script',  'style')
+				array(  'style')
 			),
 		),
 		// Вложенные теги
@@ -230,7 +249,7 @@ return array(
 		),
 		'cfgSetTagNoTypography' => array(			
 			array(
-				array('code','video','object')
+				array('code','video','object','vid','script',)
 			),
 		),
 		// Теги, после которых необходимо пропускать одну пробельную строку
